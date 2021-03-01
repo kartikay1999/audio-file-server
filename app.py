@@ -32,12 +32,12 @@ class PodcastFile(db.Model):
     host=db.Column(db.String(100),nullable=False)
     participants=db.Column(db.String,nullable=True)
     
-    def __init__(self,name,duration,upload_time,host):
+    def __init__(self,name,duration,upload_time,host, **kwargs):
         self.name=name
         self.duration=duration
         self.upload_time=upload_time
         self.host=host
-        #self.participants=kwargs['participants']
+        self.participants=kwargs['Participants']
 
 
 
@@ -82,11 +82,12 @@ def create():
                abort(400)
             else:
                 duration=file_data['audioFileMetadata']['Duration in number of seconds']        
-            upload_time=str(datetime.now())
+            upload_time=datetime.now()
             host=file_data['audioFileMetadata']['Host']
-            if 'Participants' in file_data:
-                participants=file_data['audioFileMetadata']['Participants']
-                query=PodcastFile(name,duration,upload_time,host,participants)
+            print(file_data)
+            if 'Participants' in file_data['audioFileMetadata']:
+                participants=','.join(file_data['audioFileMetadata']['Participants'])
+                query=PodcastFile(name,duration,upload_time,host,Participants=participants)
             else:
                 query=PodcastFile(name,duration,upload_time,host)
             db.session.add(query)
@@ -100,7 +101,7 @@ def create():
                abort(400)
             else:
                 duration=file_data['audioFileMetadata']['Duration in number of seconds']        
-            upload_time=str(datetime.now())
+            upload_time=datetime.now()
             query=AudioBook(title,author,narrator,host,duration,upload_time)
             db.session.add(query)
         db.session.commit()
