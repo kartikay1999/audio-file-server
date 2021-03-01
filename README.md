@@ -32,8 +32,10 @@ DATA_INPUT_FORMATS:
  
  
 ## UPDATE
-ROUTE:/update/<songfiletype> METHODS='POST' INPUT_TYPE:JSON
+ROUTE:/update/<songfiletype>/<id> METHODS='POST' INPUT_TYPE:JSON
 
+
+ACTION: UPDATES INFORMATION ABOUT THE FILE STORED AT ID=<id>
 DATA_INPUT_FORMATS:
 1.){
             "Name of the song" : (mandatory, string, cannot be larger than 100 characters)
@@ -58,14 +60,15 @@ DATA_INPUT_FORMATS:
 
 ## DELETE
 ROUTE:/delete/<songfiletype>/<id> METHODS='GET'
-        
+
+ACTION: DELETES THE FILE STORED WITH THE ID=<id>
  
 ## GET
 
 ROUTE 1:/get/<songfiletype>/<id> METHODS='GET'
 
-RETURNS: (DATA ABOUT THAT MUSIC FILE)
+ACTION: (RETURNS DATA ABOUT MUSIC FILE WITH ID=<id>)
 
 ROUTE 2:/get/<songfiletype> METHODS='GET'
         
-RETURNS: (ALL THE FILES OF THAT SONG FILE TYPE)
+RETURNS: (RETURNS ALL THE FILES OF THAT SONG FILE TYPE)
