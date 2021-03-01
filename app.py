@@ -1,4 +1,4 @@
-from flask import Flask,request,jsonify
+from flask import Flask,request,jsonify,abort
 from flask_sqlalchemy import SQLAlchemy
 import json
 import os
@@ -104,9 +104,20 @@ def delete(audiofiletype,sid):
     aft=audiofiletype
     print(aft,sid)
 
-    if aft=="song":    
-        SONGFILE.query.filter_by(id=int(sid)).delete()
-        db.session.commit()
+    if aft=="song":
+        if SONGFILE.query.filter_by(id=int(sid)).first()==None:
+            abort(400)
+        else:  
+            SONGFILE.query.filter_by(id=int(sid)).delete()
+    elif aft=='podcast':
+        if PodcastFile.query.filter_by(id=int(sid)).first()==None:
+            abort(400)
+        PodcastFile.query.filter_by(id=(int(sid))).delete()
+    elif aft=='audiobook':
+        if AudioBook.query.filter_by(id=int(sid)).first()==None:
+            abort(400)
+        AudioBook.query.filter_by(id=(int(sid))).delete()
+    
     db.session.commit()
     return "Successful"
 
@@ -117,12 +128,16 @@ def update(audiofiletype,sid):
         file_data=request.get_json()
         if audiofiletype=='song':
             data=SONGFILE.query.filter_by(id=int(sid)).first()
+            if data==None:
+                abort(400)
             data.name=file_data['Name of the song']
             data.duration=file_data['Duration in number of seconds']
             data.upload_time=datetime.now()
             
         if audiofiletype=='podcast':
             data=PodcastFile.query.filter_by(id=int(sid)).first()
+            if data==None:
+                abort(400)
             data.name=file_data['Name of the song']
             data.duration=file_data['Duration in number of seconds']
             data.upload_time=str(datetime.now())
@@ -134,6 +149,8 @@ def update(audiofiletype,sid):
         if audiofiletype=='audiobook':
 
             data=AudioBook.query.filter_by(id=int(sid)).first()
+            if data==None:
+                abort(400)
             data.title=file_data['Title of the audiobook']
             data.author=file_data['Author of the title']
             data.narrator=file_data['Narrator']
