@@ -1,6 +1,8 @@
-# audio-file-server
+## audio-file-server
 
+#CREATE
 ROUTE 1:/create methods:'POST'  INPUT_TYPE: JSON
+
 DATA_INPUT_FORMATS:
 {"audioFileType":"song",
         "audioFileMetadata":{
