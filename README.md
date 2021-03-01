@@ -5,6 +5,7 @@ ROUTE:/create METHODS:'POST'  INPUT_TYPE: JSON
 
 DATA_INPUT_FORMATS:
 1.) {"audioFileType":"song",
+
         "audioFileMetadata":{
             "Name of the song" : (mandatory, string, cannot be larger than 100 characters)
             "Duration in number of seconds" – (mandatory, integer, positive)
@@ -12,6 +13,7 @@ DATA_INPUT_FORMATS:
  }
  
  2.) {"audioFileType":"podcast",
+ 
         "audioFileMetadata":{
          "Name of the podcast":"test song",
         "Duration in number of seconds" – (mandatory, integer, positive)
@@ -21,6 +23,7 @@ DATA_INPUT_FORMATS:
   }
     
 3.) {"audioFileType":"audiobook",
+
         "audioFileMetadata":{
             "Title of the audiobook" :(mandatory, string, cannot be larger than 100 characters),
             "Author of the title": (mandatory, string, cannot be larger than 100 characters),
