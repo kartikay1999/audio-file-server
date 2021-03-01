@@ -32,10 +32,10 @@ DATA_INPUT_FORMATS:
  
  
 ## UPDATE
-ROUTE:/update/<songfiletype>/<id> METHODS='POST' INPUT_TYPE:JSON
+ROUTE:/update/songfiletype/id METHODS='POST' INPUT_TYPE:JSON
 
 
-ACTION: UPDATES INFORMATION ABOUT THE FILE STORED AT ID=<id>
+ACTION: UPDATES INFORMATION ABOUT THE FILE STORED AT ID=id
         
 DATA_INPUT_FORMATS:
 1.){
@@ -44,7 +44,7 @@ DATA_INPUT_FORMATS:
               }
               
 2.){
-         "Name of the podcast":"test song",
+         "Name of the podcast":(mandatory, string, cannot be larger than 100 characters),
         "Duration in number of seconds" – (mandatory, integer, positive)
         "Host" – (mandatory, string, cannot be larger than 100 characters)
         "Participants" – (optional, list of strings)
@@ -60,13 +60,13 @@ DATA_INPUT_FORMATS:
 
 
 ## DELETE
-ROUTE:/delete/<songfiletype>/<id> METHODS='GET'
+ROUTE:/delete/songfiletype/id METHODS='GET'
 
 ACTION: DELETES THE FILE STORED WITH THE ID=<id>
  
 ## GET
 
-ROUTE 1:/get/<songfiletype>/<id> METHODS='GET'
+ROUTE 1:/get/songfiletype/id METHODS='GET'
 
 ACTION: (RETURNS DATA ABOUT MUSIC FILE WITH ID=<id>)
 
