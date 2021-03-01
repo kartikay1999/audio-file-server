@@ -39,12 +39,14 @@ DATA_INPUT_FORMATS:
             "Name of the song" : (mandatory, string, cannot be larger than 100 characters)
             "Duration in number of seconds" – (mandatory, integer, positive)
               }
+              
 2.){
          "Name of the podcast":"test song",
         "Duration in number of seconds" – (mandatory, integer, positive)
         "Host" – (mandatory, string, cannot be larger than 100 characters)
         "Participants" – (optional, list of strings)
           }
+          
 3.){
             "Title of the audiobook" :(mandatory, string, cannot be larger than 100 characters),
             "Author of the title": (mandatory, string, cannot be larger than 100 characters),
@@ -53,4 +55,17 @@ DATA_INPUT_FORMATS:
             "Duration in number of seconds":(mandatory, integer, positive)
         }
 
+
+## DELETE
+ROUTE:/delete/<songfiletype>/<id> METHODS='GET'
+        
  
+## GET
+
+ROUTE 1:/get/<songfiletype>/<id> METHODS='GET'
+
+RETURNS: (DATA ABOUT THAT MUSIC FILE)
+
+ROUTE 2:/get/<songfiletype> METHODS='GET'
+        
+RETURNS: (ALL THE FILES OF THAT SONG FILE TYPE)
