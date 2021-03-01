@@ -67,7 +67,10 @@ def create():
         if file_data['audioFileType'].lower()=='song':
             print(file_data)
             name=file_data['audioFileMetadata']['Name of the song']
-            duration=file_data['audioFileMetadata']['Duration in number of seconds']
+            if file_data['audioFileMetadata']['Duration in number of seconds']<0:
+               abort(400)
+            else:
+                duration=file_data['audioFileMetadata']['Duration in number of seconds']            
             upload_time=datetime.now() 
             query=SONGFILE(name,duration,upload_time)
             db.session.add(query)
@@ -75,7 +78,10 @@ def create():
             
         if file_data['audioFileType'].lower()=='podcast':
             name=file_data['audioFileMetadata']['Name of the song']
-            duration=file_data['audioFileMetadata']['Duration in number of seconds']
+            if file_data['audioFileMetadata']['Duration in number of seconds']<0:
+               abort(400)
+            else:
+                duration=file_data['audioFileMetadata']['Duration in number of seconds']        
             upload_time=str(datetime.now())
             host=file_data['audioFileMetadata']['Host']
             if 'Participants' in file_data:
@@ -90,12 +96,15 @@ def create():
             author=file_data['audioFileMetadata']['Author of the title']
             narrator=file_data['audioFileMetadata']['Narrator']
             host=file_data['audioFileMetadata']['Host']
-            duration=file_data['audioFileMetadata']['Duration in number of seconds']
+            if file_data['audioFileMetadata']['Duration in number of seconds']<0:
+               abort(400)
+            else:
+                duration=file_data['audioFileMetadata']['Duration in number of seconds']        
             upload_time=str(datetime.now())
             query=AudioBook(title,author,narrator,host,duration,upload_time)
             db.session.add(query)
         db.session.commit()
-        return "Action is successful"
+        return "- Action is successful: 200 OK"
 
 
 #DELETE 
@@ -119,7 +128,7 @@ def delete(audiofiletype,sid):
         AudioBook.query.filter_by(id=(int(sid))).delete()
     
     db.session.commit()
-    return "Successful"
+    return "Action is successful: 200 OK"
 
 #UPDATE
 @app.route('/update/<string:audiofiletype>/<sid>',methods=['POST'])
@@ -131,7 +140,11 @@ def update(audiofiletype,sid):
             if data==None:
                 abort(400)
             data.name=file_data['Name of the song']
-            data.duration=file_data['Duration in number of seconds']
+            if file_data['Duration in number of seconds']<0:
+               abort(400)
+            else:
+                data.duration=file_data['Duration in number of seconds']
+
             data.upload_time=datetime.now()
             
         if audiofiletype=='podcast':
@@ -139,7 +152,10 @@ def update(audiofiletype,sid):
             if data==None:
                 abort(400)
             data.name=file_data['Name of the song']
-            data.duration=file_data['Duration in number of seconds']
+            if file_data['Duration in number of seconds']<0:
+               abort(400)
+            else:
+                data.duration=file_data['Duration in number of seconds']
             data.upload_time=str(datetime.now())
             data.host=file_data['Host']
             if 'Participants' in file_data:
@@ -155,10 +171,13 @@ def update(audiofiletype,sid):
             data.author=file_data['Author of the title']
             data.narrator=file_data['Narrator']
             data.host=file_data['Host']
-            data.duration=file_data['Duration in number of seconds']
+            if file_data['Duration in number of seconds']<0:
+               abort(400)
+            else:
+                data.duration=file_data['Duration in number of seconds']
             data.upload_time=str(datetime.now())
         db.session.commit()
-        return "Action is successful"
+        return "Action is successful: 200 OK"
 
 #GET
 @app.route('/get/<audioFileType>/<audioFileID>')
@@ -186,8 +205,9 @@ def get(audioFileType,audioFileID):
         "Narrator":book.narrator,
         "Duration in number of seconds":str(book.duration),
         "Uploaded time":str(book.upload_time),
-
         }
+        return jsonify(data)
+
 
 @app.route('/get/<audioFileType>')
 def getall(audioFileType):
