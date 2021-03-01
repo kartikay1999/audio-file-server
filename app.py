@@ -157,10 +157,10 @@ def update(audiofiletype,sid):
                abort(400)
             else:
                 data.duration=file_data['Duration in number of seconds']
-            data.upload_time=str(datetime.now())
+            data.upload_time=datetime.now()
             data.host=file_data['Host']
             if 'Participants' in file_data:
-                data.participants=file_data['Participants']
+                data.participants=','.join(file_data['Participants'])
 
             
         if audiofiletype=='audiobook':
@@ -176,7 +176,7 @@ def update(audiofiletype,sid):
                abort(400)
             else:
                 data.duration=file_data['Duration in number of seconds']
-            data.upload_time=str(datetime.now())
+            data.upload_time=datetime.now()
         db.session.commit()
         return "Action is successful: 200 OK"
 
